@@ -1,9 +1,8 @@
 import { useState, useEffect } from 'react';
-import { Carrito } from '../components/Carrito';
 
-export function Venta({cerrar, mostrar}) {
+export function Venta({ carrito, setCarrito }) {
     const [productos, setProductos] = useState([]);
-    const [carrito, setCarrito] = useState([]);
+    const [mensaje, setMensaje] = useState('');
 
     useEffect(() => {
         obtenerProductos();
@@ -17,12 +16,23 @@ export function Venta({cerrar, mostrar}) {
     }
 
     const agregarAlCarrito = (producto) => {
-        setCarrito([...carrito, { producto }]);
-        alert('Agregado al carrito');
+        const existente = carrito.find((item) => item.producto === producto);
+
+        if (existente) {
+            existente.cantidad += 1;
+            setCarrito([...carrito]);
+            setMensaje('Agregado al carrito');
+        } else {
+            setCarrito([...carrito, { producto, cantidad: 1 }]);
+            setMensaje('Agregado al carrito');
+        }
     }
 
     return productos.length === 0 ? (<h1 className='p-5'>No hay productos en venta</h1>) : (
         <>
+            <div className='d-flex justify-content-center'>
+                {mensaje !== '' && <div className='mensaje text-white text-center m-2 p-2' role='alert'>{mensaje}</div>}
+            </div>
             <div className='container p-3'>
                 <div className='row gy-3 row-cols-2'>
                     {productos.map((producto, id) => (
@@ -40,7 +50,6 @@ export function Venta({cerrar, mostrar}) {
                     ))}
                 </div>
             </div>
-            <Carrito carrito={carrito} cerrar={cerrar} mostrar={mostrar}/>
         </>
     );
 }

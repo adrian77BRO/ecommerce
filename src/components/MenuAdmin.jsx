@@ -1,5 +1,5 @@
-export function Productos({ productos, setProductos }) {
-    
+export function Inventario({ productos, setProductos, editar }) {
+
     const eliminarProducto = (id) => {
         const actualizado = [...productos];
         actualizado.splice(id, 1);
@@ -19,7 +19,8 @@ export function Productos({ productos, setProductos }) {
                             <div className='d-flex justify-content-center'>
                                 <button className='eliminar text-white border-0 rounded-3 w-50 m-2 p-2' type='submit'
                                     onClick={() => eliminarProducto(id)}>Eliminar</button>
-                                <button className='editar text-white border-0 rounded-3 w-50 m-2 p-2' type='submit'>Editar</button>
+                                <button className='editar text-white border-0 rounded-3 w-50 m-2 p-2' type='submit'
+                                    onClick={() => editar(id)}>Editar</button>
                             </div>
                         </div>
                     </div>
